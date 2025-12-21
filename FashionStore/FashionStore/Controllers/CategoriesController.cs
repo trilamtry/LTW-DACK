@@ -37,6 +37,13 @@ namespace FashionStore.Controllers
 
             return PartialView("_CategoryMenu", menu);
         }
+
+        [ChildActionOnly]
+        public ActionResult GetNavMenu()
+        {
+            var model = db.CategoryGroups.Include("Categories").ToList();
+            return PartialView("_NavMenu", model);
+        }
         public ActionResult Index()
         {
             var categories = db.Categories.Include(c => c.CategoryGroup);

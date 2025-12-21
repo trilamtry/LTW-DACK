@@ -169,6 +169,7 @@
     <Compile Include="Models\ProductImage.cs">
       <DependentUpon>ShopThoiTrang.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductListItemViewModel.cs" />
     <Compile Include="Models\ProductReview.cs">
       <DependentUpon>ShopThoiTrang.tt</DependentUpon>
     </Compile>
@@ -277,6 +278,7 @@
     <Content Include="Views\Categories\Edit.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Shared\_CategoryMenu.cshtml" />
+    <Content Include="Views\Categories\_NavMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

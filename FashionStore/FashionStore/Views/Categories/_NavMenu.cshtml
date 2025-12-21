@@ -1,0 +1,20 @@
+﻿@model IEnumerable<FashionStore.Models.CategoryGroup>
+
+<ul class="navbar-nav mr-auto">
+    @foreach (var group in Model)
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="group-@group.GroupId" role="button" data-toggle="dropdown">
+                @group.GroupName
+            </a>
+            <div class="dropdown-menu">
+                @foreach (var cat in group.Categories.Where(c => c.IsActive == true))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Category", "Product", new { slug = cat.CatSlug })">
+                        @cat.CatName
+                    </a>
+                }
+            </div>
+        </li>
+    }
+</ul>

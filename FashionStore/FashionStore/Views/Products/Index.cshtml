@@ -1,75 +1,49 @@
-﻿@model IEnumerable<FashionStore.Models.Product>
+﻿@model IEnumerable<FashionStore.Models.ProductListItemViewModel>
 
-@{
-    ViewBag.Title = "Index";
-}
+<div class="container mt-4">
+    <h3 class="text-center text-uppercase mb-4">Sản Phẩm Mới Nhất</h3>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="product-card">
+                    <div class="product-img-container">
+                        <a href="/san-pham/@item.Slug">
+                            <img src="~/Content/Images/Products/@item.ImageUrl" class="img-fluid" alt="@item.ProductName">
+                        </a>
+                    </div>
+                    <div class="product-info text-center mt-2">
+                        <h6 class="product-name">@item.ProductName</h6>
+                        <p class="product-price text-danger">@item.BasePrice.ToString("N0") đ</p>
+                    </div>
+                </div>
+            </div>  
+        }
+    </div>
+</div>
 
-<h2>Index</h2>
+<style>
+    .product-card {
+        transition: all 0.3s ease;
+    }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.SKU)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Slug)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BasePrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category.CatSlug)
-        </th>
-        <th></th>
-    </tr>
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SKU)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Slug)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BasePrice)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedAt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category.CatSlug)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProductId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProductId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProductId })
-        </td>
-    </tr>
-}
+    .product-img-container {
+        overflow: hidden;
+        background: #f8f9fa;
+    }
 
-</table>
+    .product-name {
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+        height: 40px;
+    }
+
+    .product-price {
+        font-weight: bold;
+    }
+</style>

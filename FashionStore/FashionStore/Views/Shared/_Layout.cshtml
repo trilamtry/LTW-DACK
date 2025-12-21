@@ -1,37 +1,131 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web.Mvc.Html
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Shop Thời Trang</title>
+
+    @* Sử dụng các thư viện đã cấu hình sẵn trong BundleConfig.cs của bạn *@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+        /* Tùy chỉnh CSS để giống giao diện mẫu bạn gửi */
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            color: #333;
+        }
+
+        /* Banner đen trên cùng */
+        .top-promo-bar {
+            background-color: #000;
+            color: #fff;
+            font-size: 11px;
+            padding: 6px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Menu chính */
+        .navbar {
+            background: #fff !important;
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: #000 !important;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        /* Hiệu ứng Dropdown 2 cấp khi hover */
+        .dropdown:hover > .dropdown-menu {
+            display: block;
+            margin-top: 0;
+        }
+
+        .dropdown-menu {
+            border-radius: 0;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .dropdown-item {
+            font-size: 13px;
+            padding: 8px 20px;
+        }
+
+        /* Nội dung chính */
+        .main-render-body {
+            min-height: 600px;
+            padding: 20px 0;
+        }
+
+        /* Chân trang */
+        footer {
+            border-top: 1px solid #eee;
+            padding: 30px 0;
+            margin-top: 40px;
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+
+    <div class="top-promo-bar text-center">
+        Bảo hành 365 ngày . Miễn phí đổi trả . Giao hàng toàn quốc
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">SHOPTHOITRANG</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+
+            <div class="collapse navbar-collapse" id="mainMenu">
+                @* GỌI PARTIAL VIEW CHO DANH MỤC 2 CẤP *@
+                @Html.Action("GetNavMenu", "Categories")
+
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="glyphicon glyphicon-search"></i> TÌM KIẾM</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="glyphicon glyphicon-shopping-cart"></i> GIỎ HÀNG</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container body-content">
+
+    <div class="container main-render-body">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
     </div>
 
+    <footer>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-12">
+                    <h6 class="font-weight-bold text-uppercase">Shop Thời Trang Nam</h6>
+                    <p class="small text-muted">Hệ thống cửa hàng quần áo tối giản và năng động.</p>
+                </div>
+            </div>
+            <hr />
+            <p class="small text-muted">&copy; @DateTime.Now.Year - ShopThoiTrang. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    @* Nạp Scripts từ Project *@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

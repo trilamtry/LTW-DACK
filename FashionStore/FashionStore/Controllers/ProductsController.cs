@@ -17,8 +17,17 @@ namespace FashionStore.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.Category);
-            return View(products.ToList());
+            var products = db.Products.Where(p => p.IsActive)
+        .Select(p => new ProductListItemViewModel
+        {
+            ProductId = p.ProductId,
+            ProductName = p.ProductName,
+            Slug = p.Slug,
+            BasePrice = p.BasePrice,
+            ImageUrl = p.ProductImages.FirstOrDefault(i => i.IsPrimary).ImageUrl ?? "default.jpg"
+        }).ToList();
+
+            return View(products);
         }
 
         // GET: Products/Details/5
