@@ -5,20 +5,26 @@
     <div class="row">
         @foreach (var item in Model)
         {
-            <div class="col-md-3 col-sm-6 mb-4">
-                <div class="product-card">
-                    <div class="product-img-container">
-                        <a href="/san-pham/@item.Slug">
-                            <img src="~/Content/Images/Products/@item.ImageUrl" class="img-fluid" alt="@item.ProductName">
-                        </a>
-                    </div>
-                    <div class="product-info text-center mt-2">
-                        <h6 class="product-name">@item.ProductName</h6>
-                        <p class="product-price text-danger">@item.BasePrice.ToString("N0") đ</p>
-                    </div>
-                </div>
-            </div>  
-        }
+    <div class="col-md-3 col-sm-6 mb-4">
+        <div class="product-card">
+            <div class="product-img-container" style="background-color: #f8f8f8;">
+                <a href="@Url.Action("Details", "Products", new { id = item.ProductId })">
+                    @* Sử dụng Url.Content để trỏ thẳng vào thư mục /product/
+                    Lưu ý: "product" trong code phải viết thường y hệt tên folder của bạn
+                    *@
+                    <img src="@Url.Content("~/product/" + item.ImageUrl)"
+                         class="img-fluid"
+                         alt="@item.ProductName"
+                         onerror="this.src='@Url.Content("~/product/product-1.jpg")';">
+                    @* onerror: Nếu ảnh lỗi sẽ lấy ảnh product-1.jpg làm dự phòng *@
+                </a>
+            </div>
+            <div class="product-info text-center mt-2">
+                <h6 class="product-name" style="font-size: 14px; min-height: 40px;">@item.ProductName</h6>
+                <p class="product-price text-danger font-weight-bold">@item.BasePrice.ToString("N0") đ</p>
+            </div>
+        </div>
+    </div>}
     </div>
 </div>
 

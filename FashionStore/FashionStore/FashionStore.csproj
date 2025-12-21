@@ -229,6 +229,21 @@
       <DependentUpon>ShopThoiTrang.edmx</DependentUpon>
       <LastGenOutput>ShopThoiTrang.cs</LastGenOutput>
     </Content>
+    <Content Include="product\product-1.jpg" />
+    <Content Include="product\product-10.jpg" />
+    <Content Include="product\product-11.jpg" />
+    <Content Include="product\product-12.jpg" />
+    <Content Include="product\product-13.jpg" />
+    <Content Include="product\product-14.jpg" />
+    <Content Include="product\product-2.jpg" />
+    <Content Include="product\product-3.jpg" />
+    <Content Include="product\product-4.jpg" />
+    <Content Include="product\product-5.jpg" />
+    <Content Include="product\product-6.jpg" />
+    <Content Include="product\product-7.jpg" />
+    <Content Include="product\product-8.jpg" />
+    <Content Include="product\product-9.jpg" />
+    <Content Include="product\quan-short2.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -242,6 +257,26 @@
     <Content Include="Models\ShopThoiTrang.edmx.diagram">
       <DependentUpon>ShopThoiTrang.edmx</DependentUpon>
     </Content>
+    <Content Include="product\ao-thun1.webp" />
+    <Content Include="product\ao-thun2.webp" />
+    <Content Include="product\ao-thun3.webp" />
+    <Content Include="product\khoac1.webp" />
+    <Content Include="product\khoac2.webp" />
+    <Content Include="product\khoac3.webp" />
+    <Content Include="product\non1.webp" />
+    <Content Include="product\non2.webp" />
+    <Content Include="product\non3.webp" />
+    <Content Include="product\quan-dai1.webp" />
+    <Content Include="product\quan-dai2.webp" />
+    <Content Include="product\quan-dai3.webp" />
+    <Content Include="product\quan-short1.webp" />
+    <Content Include="product\quan-short3.webp" />
+    <Content Include="product\so-mi1.webp" />
+    <Content Include="product\so-mi2.webp" />
+    <Content Include="product\so-mi3.webp" />
+    <Content Include="product\vo1.webp" />
+    <Content Include="product\vo2.webp" />
+    <Content Include="product\vo3.webp" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
