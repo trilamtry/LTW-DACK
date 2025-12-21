@@ -15,21 +15,29 @@ namespace FashionStore.Controllers
         private ShopThoiTrangEntities db = new ShopThoiTrangEntities();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(string search, int? catId, decimal? minPrice, decimal? maxPrice)
         {
-            var products = db.Products.Where(p => p.IsActive)
-        .Select(p => new ProductListItemViewModel
-        {
-            ProductId = p.ProductId,
-            ProductName = p.ProductName,
-            Slug = p.Slug,
-            BasePrice = p.BasePrice,
-            ImageUrl = p.ProductImages.FirstOrDefault(i => i.IsPrimary).ImageUrl ?? "default.jpg"
-        }).ToList();
+            var products = db.Products.Where(p => p.IsActive).AsQueryable();
 
-            return View(products);
+            if (catId.HasValue)
+                products = products.Where(p => p.CategoryId == catId);
+
+            if (!string.IsNullOrEmpty(search))
+                products = products.Where(p => p.ProductName.Contains(search));
+
+            if (minPrice.HasValue)
+                products = products.Where(p => p.BasePrice >= minPrice.Value);
+
+            if (maxPrice.HasValue)
+                products = products.Where(p => p.BasePrice <= maxPrice.Value);
+
+            // QUAN TRỌNG: Tên ViewBag phải là catId để khớp với @Html.DropDownList("catId",...)
+            // Và sửa lỗi bool? bằng cách so sánh == true
+            var categories = db.Categories.Where(c => c.IsActive == true).ToList();
+            ViewBag.catId = new SelectList(categories, "CategoryId", "CatName", catId);
+
+            return View(products.OrderByDescending(p => p.CreatedAt).ToList());
         }
-
         // GET: Products/Details/5
         public ActionResult Details(int? id)
         {

@@ -1,55 +1,92 @@
-﻿@model IEnumerable<FashionStore.Models.ProductListItemViewModel>
+﻿@using System.Web.Mvc.Html
+@* Thay FashionStore bằng namespace chính xác của bạn nếu cần *@
+@model IEnumerable<FashionStore.Models.Product>
+
+@{
+    ViewBag.Title = "Danh sách sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <div class="container mt-4">
-    <h3 class="text-center text-uppercase mb-4">Sản Phẩm Mới Nhất</h3>
-    <div class="row">
-        @foreach (var item in Model)
-        {
-    <div class="col-md-3 col-sm-6 mb-4">
-        <div class="product-card">
-            <div class="product-img-container" style="background-color: #f8f8f8;">
-                <a href="@Url.Action("Details", "Products", new { id = item.ProductId })">
-                    @* Sử dụng Url.Content để trỏ thẳng vào thư mục /product/
-                    Lưu ý: "product" trong code phải viết thường y hệt tên folder của bạn
-                    *@
-                    <img src="@Url.Content("~/product/" + item.ImageUrl)"
-                         class="img-fluid"
-                         alt="@item.ProductName"
-                         onerror="this.src='@Url.Content("~/product/product-1.jpg")';">
-                    @* onerror: Nếu ảnh lỗi sẽ lấy ảnh product-1.jpg làm dự phòng *@
-                </a>
-            </div>
-            <div class="product-info text-center mt-2">
-                <h6 class="product-name" style="font-size: 14px; min-height: 40px;">@item.ProductName</h6>
-                <p class="product-price text-danger font-weight-bold">@item.BasePrice.ToString("N0") đ</p>
-            </div>
+    <div class="card mb-4 border-0 shadow-sm" style="background: #f8f9fa;">
+        <div class="card-body">
+            @using (Html.BeginForm("Index", "Products", FormMethod.Get, new { @class = "form-row align-items-end" }))
+            {
+                <div class="col-md-3 mb-2">
+                    <label class="small font-weight-bold">TÊN SẢN PHẨM</label>
+                    <input type="text" name="search" class="form-control" placeholder="Tìm kiếm..." value="@Request.QueryString["search"]" />
+                </div>
+
+                <div class="col-md-2 mb-2">
+                    <label class="small font-weight-bold">DANH MỤC</label>
+                    @* Lưu ý: Tên "catId" phải khớp với tham số trong Controller *@
+                    @Html.DropDownList("catId", (SelectList)ViewBag.catId, "-- Tất cả --", new { @class = "form-control" })
+                </div>
+
+                <div class="col-md-2 mb-2">
+                    <label class="small font-weight-bold">GIÁ TỪ</label>
+                    <input type="number" name="minPrice" class="form-control" placeholder="0" value="@Request.QueryString["minPrice"]" />
+                </div>
+
+                <div class="col-md-2 mb-2">
+                    <label class="small font-weight-bold">ĐẾN GIÁ</label>
+                    <input type="number" name="maxPrice" class="form-control" placeholder="9.999.000" value="@Request.QueryString["maxPrice"]" />
+                </div>
+
+                <div class="col-md-3 mb-2">
+                    <button type="submit" class="btn btn-dark btn-block text-uppercase font-weight-bold">Lọc kết quả</button>
+                </div>
+            }
         </div>
-    </div>}
+    </div>
+
+    <div class="row">
+        @if (Model == null || !Model.Any())
+        {
+            <div class="col-12 text-center py-5">
+                <h5 class="text-muted">Không tìm thấy sản phẩm nào phù hợp với bộ lọc.</h5>
+                <a href="@Url.Action("Index", "Products")" class="btn btn-outline-dark mt-3">Xem tất cả sản phẩm</a>
+            </div>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="product-card">
+                        <div class="product-img-container" style="background-color: #f3f3f3; position: relative; overflow: hidden;">
+                            <a href="@Url.Action("Details", "Products", new { id = item.ProductId })">
+                                @{
+                                    // Lấy ảnh Primary, nếu null thì lấy ảnh đầu tiên, nếu vẫn null thì dùng ảnh mặc định
+                                    var img = item.ProductImages.FirstOrDefault(p => p.IsPrimary == true)?.ImageUrl
+                                              ?? item.ProductImages.FirstOrDefault()?.ImageUrl
+                                              ?? "product-1.jpg";
+                                }
+                                <img src="@Url.Content("~/product/" + img)" class="img-fluid" alt="@item.ProductName" style="transition: transform 0.3s;">
+                            </a>
+                        </div>
+                        <div class="product-info text-center mt-3">
+                            <h6 class="text-uppercase mb-1" style="font-size: 13px; height: 35px; overflow: hidden; line-height: 1.4;">
+                                <a href="@Url.Action("Details", "Products", new { id = item.ProductId })" class="text-dark text-decoration-none">@item.ProductName</a>
+                            </h6>
+                            <p class="text-danger font-weight-bold">@item.BasePrice.ToString("N0") đ</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
     </div>
 </div>
 
 <style>
-    .product-card {
-        transition: all 0.3s ease;
+    .product-card:hover img {
+        transform: scale(1.05);
     }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
 
     .product-img-container {
-        overflow: hidden;
-        background: #f8f9fa;
-    }
-
-    .product-name {
-        font-size: 14px;
-        font-weight: 500;
-        color: #333;
-        height: 40px;
-    }
-
-    .product-price {
-        font-weight: bold;
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 </style>
