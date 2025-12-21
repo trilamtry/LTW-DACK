@@ -1,0 +1,75 @@
+﻿@model IEnumerable<FashionStore.Models.Category>
+
+@{
+    ViewBag.Title = "Quản lý Danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="main-content flex-grow-1 p-3 p-md-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Quản lý Danh mục</h1>
+        <a href="@Url.Action("Create", "Category", new { area = "Admin" })" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i> Thêm Danh mục
+        </a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-white py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách Danh mục sản phẩm</h6>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-3">Tên Danh mục</th>
+                            <th>Nhóm (Group)</th>
+                            <th>Slug (URL)</th>
+                            <th>Thứ tự</th>
+                            <th>Trạng thái</th>
+                            <th class="text-end pe-4">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-3 fw-bold">@item.CategoryName</td>
+                                <td>
+                                    <span class="badge bg-info text-dark">
+                                        @item.CategoryGroup.GroupName
+                                    </span>
+                                </td>
+                                <td class="text-muted">@item.CategorySlug</td>
+                                <td>@item.SortOrder</td>
+                                <td>
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge bg-success">Hiển thị</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Tạm ẩn</span>
+                                    }
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="btn-group">
+                                        <a href="@Url.Action("Edit", "Category", new { id = item.CategoryId, area = "Admin" })" class="btn btn-sm btn-outline-primary" title="Sửa">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", "Category", new { id = item.CategoryId, area = "Admin" })" class="btn btn-sm btn-outline-danger" title="Xóa">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-white">
+            <small class="text-muted">Tổng số: @Model.Count() danh mục</small>
+        </div>
+    </div>
+</div>

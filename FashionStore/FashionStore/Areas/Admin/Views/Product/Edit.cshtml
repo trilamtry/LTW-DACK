@@ -1,0 +1,73 @@
+﻿@model FashionStore.Areas.Admin.Models.ProductViewModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "Chỉnh sửa Sản phẩm";
+}
+
+<div class="main-content flex-grow-1 p-3 p-md-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white">
+            <h5 class="mb-0">Sửa Sản phẩm: @Model.ProductName</h5>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.ProductId)
+
+                <div class="row">
+                    <div class="col-md-8">
+                        @* Các trường nhập liệu giống hệt Create *@
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.ProductName, new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control" })
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.SKU, new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.SKU, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.BasePrice, new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.BasePrice, new { @class = "form-control", type = "number" })
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Slug, new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Slug, new { @class = "form-control" })
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Description, new { @class = "form-label" })
+                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = "4" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label">Danh mục</label>
+                            @* Đổi ép kiểu thành SelectList và dùng DropDownListFor thay vì MultiSelectList *@
+                            @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewBag.Categories, "-- Chọn danh mục --", new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Cập nhật ảnh mới (Nếu có)</label>
+                            <input type="file" name="PrimaryImage" class="form-control" />
+                        </div>
+
+                        <div class="form-check mb-3">
+                            @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-check-input" })
+                            @Html.LabelFor(m => m.IsActive, new { @class = "form-check-label" })
+                        </div>
+
+                        <button type="submit" class="btn btn-warning w-100">Cập nhật</button>
+                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary w-100 mt-2">Hủy bỏ</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

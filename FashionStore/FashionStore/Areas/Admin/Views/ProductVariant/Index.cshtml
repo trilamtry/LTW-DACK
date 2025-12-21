@@ -1,0 +1,76 @@
+﻿@model IEnumerable<FashionStore.Models.ProductVariant>
+@{
+    ViewBag.Title = "Quản lý biến thể";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var product = (FashionStore.Models.Product)ViewBag.Product;
+}
+
+<div class="main-content flex-grow-1 p-3 p-md-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-1">Biến thể của: @product.ProductName</h4>
+            <small class="text-muted">Mã: @product.SKU | Giá gốc: @product.BasePrice.ToString("N0") đ</small>
+        </div>
+        <div>
+            <a href="@Url.Action("Index", "Product")" class="btn btn-outline-secondary me-2">Quay lại SP</a>
+            <a href="@Url.Action("Create", new { productId = product.ProductId })" class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i> Thêm Size/Màu
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Size</th>
+                        <th>Màu sắc</th>
+                        <th>Giá bán</th>
+                        <th>Tồn kho</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><span class="badge bg-secondary">@item.Size.SizeCode</span></td>
+                                <td>
+                                    <span class="d-inline-block rounded-circle border" style="width: 15px; height: 15px; background-color: @item.Color.ColorHex;"></span>
+                                    @item.Color.ColorName
+                                </td>
+                                <td>@item.Price.ToString("N0") đ</td>
+                                <td>
+                                    @if (item.Stock > 0)
+                                    {
+                                        <span class="text-success fw-bold">@item.Stock</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">Hết hàng</span>
+                                    }
+                                </td>
+                                <td>
+                                    @using (Html.BeginForm("Delete", "ProductVariant", new { id = item.VariantId }, FormMethod.Post, new { onsubmit = "return confirm('Xóa biến thể này?');" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-danger border-0">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="5" class="text-center py-4">Chưa có biến thể nào. Hãy thêm mới!</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

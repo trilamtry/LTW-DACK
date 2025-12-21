@@ -1,0 +1,40 @@
+﻿@model FashionStore.Models.ProductReview
+
+@{
+    ViewBag.Title = "Xóa đánh giá";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="main-content flex-grow-1 p-3 p-md-4">
+    <div class="card border-danger shadow col-md-6 mx-auto">
+        <div class="card-header bg-danger text-white">
+            <h5 class="mb-0"><i class="bi bi-exclamation-triangle me-2"></i>Xác nhận xóa đánh giá</h5>
+        </div>
+        <div class="card-body">
+            <p>Bạn có chắc chắn muốn xóa đánh giá này? Hành động này không thể hoàn tác.</p>
+            <table class="table table-sm">
+                <tr>
+                    <td class="text-muted">Mã đánh giá:</td>
+                    <td class="fw-bold">@Model.ReviewCode</td>
+                </tr>
+                <tr>
+                    <td class="text-muted">Ngày gửi:</td>
+                    <td>@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                </tr>
+                <tr>
+                    <td class="text-muted">Nội dung:</td>
+                    <td class="fst-italic">"@Model.Comment"</td>
+                </tr>
+            </table>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">Hủy bỏ</a>
+                    <button type="submit" class="btn btn-danger">Xác nhận xóa vĩnh viễn</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

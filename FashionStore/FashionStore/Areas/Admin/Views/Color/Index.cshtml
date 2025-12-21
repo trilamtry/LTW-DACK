@@ -1,0 +1,54 @@
+﻿@model IEnumerable<FashionStore.Models.Color>
+
+@{
+    ViewBag.Title = "Quản lý Màu sắc";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="main-content flex-grow-1 p-3 p-md-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Quản lý Màu sắc</h1>
+        <a href="@Url.Action("Create")" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Thêm Màu
+        </a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Tên Màu</th>
+                            <th>Mã Hex</th>
+                            <th>Hiển thị</th>
+                            <th class="text-end pe-4">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="fw-bold">@item.ColorName</td>
+                                <td>@item.ColorHex</td>
+                                <td>
+                                    <span class="d-inline-block rounded-circle border border-secondary"
+                                          style="width: 20px; height: 20px; background-color: @item.ColorHex;">
+                                    </span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <a href="@Url.Action("Edit", new { id = item.ColorId })" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-pencil-square"></i> Sửa
+                                    </a>
+                                    <a href="@Url.Action("Delete", new { id = item.ColorId })" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i> Xóa
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

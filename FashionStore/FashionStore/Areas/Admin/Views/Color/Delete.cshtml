@@ -1,0 +1,29 @@
+﻿@model FashionStore.Models.Color
+
+@{
+    ViewBag.Title = "Xóa Màu sắc";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="main-content flex-grow-1 p-3 p-md-4">
+    <div class="card border-danger col-md-6 mx-auto">
+        <div class="card-header bg-danger text-white">
+            <h5 class="mb-0">Xác nhận xóa</h5>
+        </div>
+        <div class="card-body">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+            <p>Bạn có chắc chắn muốn xóa Màu này không? (Màu đang được sử dụng sẽ không thể xóa)</p>
+            <h4 class="text-center fw-bold text-danger display-4">@Model.ColorName (@Model.ColorHex)</h4>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-danger">Xóa ngay</button>
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">Hủy bỏ</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+﻿@model FashionStore.Areas.Admin.Models.ProductVariantViewModel
+@{
+    ViewBag.Title = "Thêm biến thể";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="main-content flex-grow-1 p-3 p-md-4">
+    <div class="card col-md-6 mx-auto shadow-sm">
+        <div class="card-header bg-white">
+            <h5 class="mb-0">Thêm Size/Màu cho: @Model.ProductName</h5>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.ProductId)
+                @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        @Html.LabelFor(m => m.SizeId, new { @class = "form-label" })
+                        @Html.DropDownListFor(m => m.SizeId, (SelectList)ViewBag.SizeId, "Chọn Size", new { @class = "form-select" })
+                        @Html.ValidationMessageFor(m => m.SizeId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        @Html.LabelFor(m => m.ColorId, new { @class = "form-label" })
+                        @Html.DropDownListFor(m => m.ColorId, (SelectList)ViewBag.ColorId, "Chọn Màu", new { @class = "form-select" })
+                        @Html.ValidationMessageFor(m => m.ColorId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        @Html.LabelFor(m => m.Price, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.Price, new { @class = "form-control", type = "number" })
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        @Html.LabelFor(m => m.Stock, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.Stock, new { @class = "form-control", type = "number" })
+                        @Html.ValidationMessageFor(m => m.Stock, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mt-2">Lưu Biến Thể</button>
+                <a href="@Url.Action("Index", new { productId = Model.ProductId })" class="btn btn-light w-100 mt-2">Hủy bỏ</a>
+            }
+        </div>
+    </div>
+</div>

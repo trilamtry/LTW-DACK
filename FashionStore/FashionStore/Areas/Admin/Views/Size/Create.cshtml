@@ -1,0 +1,39 @@
+﻿@model FashionStore.Models.Size
+
+@{
+    ViewBag.Title = "Thêm Size";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-content flex-grow-1 p-3 p-md-4">
+    <div class="card col-md-6 mx-auto shadow-sm">
+        <div class="card-header bg-white">
+            <h5 class="mb-0">Thêm mới Size</h5>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label class="form-label">Tên Size (Mã)</label>
+                    @Html.EditorFor(model => model.SizeCode, new { htmlAttributes = new { @class = "form-control", placeholder = "VD: S, M, L, XL..." } })
+                    @Html.ValidationMessageFor(model => model.SizeCode, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Thứ tự hiển thị</label>
+                    @Html.EditorFor(model => model.SortOrder, new { htmlAttributes = new { @class = "form-control", type = "number", placeholder = "Số nhỏ hiện trước (1, 2, 3...)" } })
+                    @Html.ValidationMessageFor(model => model.SortOrder, "", new { @class = "text-danger" })
+                </div>
+
+                @* ĐÃ XÓA PHẦN CHECKBOX ISACTIVE *@
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Lưu lại</button>
+                    <a href="@Url.Action("Index")" class="btn btn-light">Hủy bỏ</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿@model FashionStore.Models.Product
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "Xóa Sản phẩm";
+}
+
+<div class="main-content flex-grow-1 p-3 p-md-4">
+    <div class="alert alert-danger">
+        <h3>Bạn có chắc chắn muốn xóa sản phẩm này không?</h3>
+        <p>Hành động này sẽ xóa cả các Biến thể (Size/Màu) và Hình ảnh liên quan.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Tên sản phẩm</dt>
+                <dd class="col-sm-9">@Model.ProductName</dd>
+
+                <dt class="col-sm-3">SKU</dt>
+                <dd class="col-sm-9">@Model.SKU</dd>
+
+                <dt class="col-sm-3">Giá gốc</dt>
+                <dd class="col-sm-9">@Model.BasePrice.ToString("N0") đ</dd>
+            </dl>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger">Xác nhận Xóa</button>
+                <a href="@Url.Action("Index")" class="btn btn-secondary">Hủy</a>
+            }
+        </div>
+    </div>
+</div>

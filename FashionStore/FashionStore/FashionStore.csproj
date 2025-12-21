@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -45,6 +46,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -120,13 +127,157 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AppUserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ColorController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductReviewController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductVariantController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SizeController.cs" />
+    <Compile Include="Areas\Admin\Models\AdminDashboardViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ProductReviewViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ProductVariantViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ProductViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppUser.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CategoryGroup.cs" />
+    <Compile Include="Models\Color.cs" />
+    <Compile Include="Models\CustomerAddress.cs" />
+    <Compile Include="Models\FashionStoreContext.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderItem.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductImage.cs" />
+    <Compile Include="Models\ProductReview.cs" />
+    <Compile Include="Models\ProductVariant.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Size.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\admin-style.css" />
+    <Content Include="assets\css\bootstrap.min.css" />
+    <Content Include="assets\css\elegant-icons.css" />
+    <Content Include="assets\css\font-awesome.min.css" />
+    <Content Include="assets\css\magnific-popup.css" />
+    <Content Include="assets\css\nice-select.css" />
+    <Content Include="assets\css\owl.carousel.min.css" />
+    <Content Include="assets\css\slicknav.min.css" />
+    <Content Include="assets\css\style.css" />
+    <Content Include="assets\fonts\ElegantIcons.svg" />
+    <Content Include="assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\img\about\about-us.jpg" />
+    <Content Include="assets\img\about\team-1.jpg" />
+    <Content Include="assets\img\about\team-2.jpg" />
+    <Content Include="assets\img\about\team-3.jpg" />
+    <Content Include="assets\img\about\team-4.jpg" />
+    <Content Include="assets\img\about\testimonial-author.jpg" />
+    <Content Include="assets\img\about\testimonial-pic.jpg" />
+    <Content Include="assets\img\banner\banner-1.jpg" />
+    <Content Include="assets\img\banner\banner-2.jpg" />
+    <Content Include="assets\img\banner\banner-3.jpg" />
+    <Content Include="assets\img\blog\blog-1.jpg" />
+    <Content Include="assets\img\blog\blog-2.jpg" />
+    <Content Include="assets\img\blog\blog-3.jpg" />
+    <Content Include="assets\img\blog\blog-4.jpg" />
+    <Content Include="assets\img\blog\blog-5.jpg" />
+    <Content Include="assets\img\blog\blog-6.jpg" />
+    <Content Include="assets\img\blog\blog-7.jpg" />
+    <Content Include="assets\img\blog\blog-8.jpg" />
+    <Content Include="assets\img\blog\blog-9.jpg" />
+    <Content Include="assets\img\blog\details\blog-author.jpg" />
+    <Content Include="assets\img\blog\details\blog-details.jpg" />
+    <Content Include="assets\img\breadcrumb-bg.jpg" />
+    <Content Include="assets\img\clients\client-1.png" />
+    <Content Include="assets\img\clients\client-2.png" />
+    <Content Include="assets\img\clients\client-3.png" />
+    <Content Include="assets\img\clients\client-4.png" />
+    <Content Include="assets\img\clients\client-5.png" />
+    <Content Include="assets\img\clients\client-6.png" />
+    <Content Include="assets\img\clients\client-7.png" />
+    <Content Include="assets\img\clients\client-8.png" />
+    <Content Include="assets\img\footer-logo.png" />
+    <Content Include="assets\img\hero\hero-1.jpg" />
+    <Content Include="assets\img\hero\hero-2.jpg" />
+    <Content Include="assets\img\icon\calendar.png" />
+    <Content Include="assets\img\icon\cart.png" />
+    <Content Include="assets\img\icon\compare.png" />
+    <Content Include="assets\img\icon\heart.png" />
+    <Content Include="assets\img\icon\search.png" />
+    <Content Include="assets\img\instagram\instagram-1.jpg" />
+    <Content Include="assets\img\instagram\instagram-2.jpg" />
+    <Content Include="assets\img\instagram\instagram-3.jpg" />
+    <Content Include="assets\img\instagram\instagram-4.jpg" />
+    <Content Include="assets\img\instagram\instagram-5.jpg" />
+    <Content Include="assets\img\instagram\instagram-6.jpg" />
+    <Content Include="assets\img\logo.png" />
+    <Content Include="assets\img\payment.png" />
+    <Content Include="assets\img\product-sale.png" />
+    <Content Include="assets\img\product\ao-thun1.jpg" />
+    <Content Include="assets\img\product\ao-thun2.jpg" />
+    <Content Include="assets\img\product\ao-thun3.jpg" />
+    <Content Include="assets\img\product\khoac1.jpg" />
+    <Content Include="assets\img\product\khoac2.jpg" />
+    <Content Include="assets\img\product\khoac3.jpg" />
+    <Content Include="assets\img\product\non1.jpg" />
+    <Content Include="assets\img\product\non2.jpg" />
+    <Content Include="assets\img\product\non3.jpg" />
+    <Content Include="assets\img\product\product-1.jpg" />
+    <Content Include="assets\img\product\product-10.jpg" />
+    <Content Include="assets\img\product\product-11.jpg" />
+    <Content Include="assets\img\product\product-12.jpg" />
+    <Content Include="assets\img\product\product-13.jpg" />
+    <Content Include="assets\img\product\product-14.jpg" />
+    <Content Include="assets\img\product\product-2.jpg" />
+    <Content Include="assets\img\product\product-3.jpg" />
+    <Content Include="assets\img\product\product-4.jpg" />
+    <Content Include="assets\img\product\product-5.jpg" />
+    <Content Include="assets\img\product\product-6.jpg" />
+    <Content Include="assets\img\product\product-7.jpg" />
+    <Content Include="assets\img\product\product-8.jpg" />
+    <Content Include="assets\img\product\product-9.jpg" />
+    <Content Include="assets\img\product\quan-dai1.jpg" />
+    <Content Include="assets\img\product\quan-dai2.jpg" />
+    <Content Include="assets\img\product\quan-dai3.jpg" />
+    <Content Include="assets\img\product\quan-short1.jpg" />
+    <Content Include="assets\img\product\quan-short2.jpg" />
+    <Content Include="assets\img\product\quan-short3.jpg" />
+    <Content Include="assets\img\product\so-mi1.jpg" />
+    <Content Include="assets\img\product\so-mi2.jpg" />
+    <Content Include="assets\img\product\so-mi3.jpg" />
+    <Content Include="assets\img\product\vo1.jpg" />
+    <Content Include="assets\img\product\vo2.jpg" />
+    <Content Include="assets\img\product\vo3.jpg" />
+    <Content Include="assets\img\shop-details\details-payment.png" />
+    <Content Include="assets\img\shop-details\product-big-2.png" />
+    <Content Include="assets\img\shop-details\product-big-3.png" />
+    <Content Include="assets\img\shop-details\product-big-4.png" />
+    <Content Include="assets\img\shop-details\product-big.png" />
+    <Content Include="assets\img\shop-details\thumb-1.png" />
+    <Content Include="assets\img\shop-details\thumb-2.png" />
+    <Content Include="assets\img\shop-details\thumb-3.png" />
+    <Content Include="assets\img\shop-details\thumb-4.png" />
+    <Content Include="assets\img\shopping-cart\cart-1.jpg" />
+    <Content Include="assets\img\shopping-cart\cart-2.jpg" />
+    <Content Include="assets\img\shopping-cart\cart-3.jpg" />
+    <Content Include="assets\img\shopping-cart\cart-4.jpg" />
+    <Content Include="assets\js\bootstrap.min.js" />
+    <Content Include="assets\js\jquery-3.3.1.min.js" />
+    <Content Include="assets\js\jquery.countdown.min.js" />
+    <Content Include="assets\js\jquery.magnific-popup.min.js" />
+    <Content Include="assets\js\jquery.nice-select.min.js" />
+    <Content Include="assets\js\jquery.nicescroll.min.js" />
+    <Content Include="assets\js\jquery.slicknav.js" />
+    <Content Include="assets\js\main.js" />
+    <Content Include="assets\js\mixitup.min.js" />
+    <Content Include="assets\js\owl.carousel.min.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -152,6 +303,64 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="assets\css\style.css.map" />
+    <Content Include="assets\fonts\ElegantIcons.eot" />
+    <Content Include="assets\fonts\ElegantIcons.ttf" />
+    <Content Include="assets\fonts\ElegantIcons.woff" />
+    <Content Include="assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="assets\fonts\FontAwesome.otf" />
+    <Content Include="assets\sass\style.scss" />
+    <Content Include="assets\sass\_about.scss" />
+    <Content Include="assets\sass\_base.scss" />
+    <Content Include="assets\sass\_blog-details.scss" />
+    <Content Include="assets\sass\_blog-sidebar.scss" />
+    <Content Include="assets\sass\_blog.scss" />
+    <Content Include="assets\sass\_breadcrumb.scss" />
+    <Content Include="assets\sass\_checkout.scss" />
+    <Content Include="assets\sass\_contact.scss" />
+    <Content Include="assets\sass\_footer.scss" />
+    <Content Include="assets\sass\_header.scss" />
+    <Content Include="assets\sass\_hero.scss" />
+    <Content Include="assets\sass\_home-page.scss" />
+    <Content Include="assets\sass\_mixins.scss" />
+    <Content Include="assets\sass\_product.scss" />
+    <Content Include="assets\sass\_responsive.scss" />
+    <Content Include="assets\sass\_shop-details.scss" />
+    <Content Include="assets\sass\_shop.scss" />
+    <Content Include="assets\sass\_shopping-cart.scss" />
+    <Content Include="assets\sass\_variable.scss" />
+    <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AppUser\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\AppUser\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Color\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Color\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Color\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Color\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductVariant\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductVariant\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Size\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Size\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Size\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Size\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductReview\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductReview\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductReview\Delete.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -180,7 +389,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -242,6 +450,8 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -249,4 +459,5 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
 </Project>

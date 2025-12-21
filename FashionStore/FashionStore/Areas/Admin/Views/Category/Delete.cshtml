@@ -1,0 +1,40 @@
+﻿@model FashionStore.Models.Category
+
+@{
+    ViewBag.Title = "Xóa Danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="main-content flex-grow-1 p-3 p-md-4">
+    <div class="card shadow-sm border-danger col-md-6 mx-auto">
+        <div class="card-header bg-danger text-white">
+            <h5 class="mb-0">Xác nhận xóa</h5>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-warning">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                Bạn có chắc chắn muốn xóa danh mục này không? Hành động này không thể hoàn tác.
+            </div>
+
+            <dl class="row">
+                <dt class="col-sm-4">Tên danh mục:</dt>
+                <dd class="col-sm-8 fw-bold">@Model.CategoryName</dd>
+
+                <dt class="col-sm-4">Thuộc nhóm:</dt>
+                <dd class="col-sm-8">@Model.CategoryGroup.GroupName</dd>
+
+                <dt class="col-sm-4">URL (Slug):</dt>
+                <dd class="col-sm-8 text-muted">@Model.CategorySlug</dd>
+            </dl>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="d-grid gap-2 d-md-block text-end">
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">Hủy bỏ</a>
+                    <button type="submit" class="btn btn-danger">Xóa ngay</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

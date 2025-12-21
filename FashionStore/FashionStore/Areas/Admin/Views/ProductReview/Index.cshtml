@@ -1,0 +1,96 @@
+﻿@model IEnumerable<FashionStore.Models.ProductReviewViewModel>
+
+@{
+    ViewBag.Title = "Quản lý Đánh giá";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="main-content flex-grow-1 p-3 p-md-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0 text-gray-800"><i class="bi bi-chat-left-quote me-2"></i>Quản lý Đánh giá</h1>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Tổng đánh giá</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.TotalReviews</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Mới (7 ngày qua)</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.NewReviews</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Có bình luận</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.WithComment</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card shadow mb-4">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Mã</th>
+                            <th>Khách hàng</th>
+                            <th>Sản phẩm</th>
+                            <th>Nội dung</th>
+                            <th>Ngày gửi</th>
+                            <th class="text-end pe-4">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="fw-bold text-primary">@item.ReviewCode</td>
+                                <td>
+                                    <div>@item.CustomerName</div>
+                                    <small class="text-muted">@item.CustomerPhone</small>
+                                </td>
+                                <td>
+                                    <div class="text-truncate" style="max-width: 200px;">@item.ProductName</div>
+                                    <small class="badge bg-light text-dark border">@item.SizeName | @item.ColorName</small>
+                                </td>
+                                <td>
+                                    <div class="text-muted small text-truncate" style="max-width: 250px;">
+                                        @(string.IsNullOrEmpty(item.Comment) ? "(Không có bình luận)" : item.Comment)
+                                    </div>
+                                </td>
+                                <td>@item.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td class="text-end pe-4">
+                                    <a href="@Url.Action("Details", new { id = item.ReviewId })" class="btn btn-sm btn-outline-primary" title="Xem & Phản hồi">
+                                        <i class="bi bi-reply"></i>
+                                    </a>
+                                    <a href="@Url.Action("Delete", new { id = item.ReviewId })" class="btn btn-sm btn-outline-danger" title="Xóa">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
