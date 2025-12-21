@@ -56,6 +56,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -127,9 +129,71 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AppUsersController.cs" />
+    <Compile Include="Controllers\CartItemsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AppUser.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Cart.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CartItem.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Category.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CategoryGroup.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Color.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustomerAddress.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Order.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderItem.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductImage.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductReview.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductVariant.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Role.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ShopThoiTrang.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShopThoiTrang.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ShopThoiTrang.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ShopThoiTrang.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShopThoiTrang.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Size.cs">
+      <DependentUpon>ShopThoiTrang.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -248,6 +312,16 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\ShopThoiTrang.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ShopThoiTrang.edmx</DependentUpon>
+      <LastGenOutput>ShopThoiTrang.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ShopThoiTrang.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ShopThoiTrang.edmx</DependentUpon>
+      <LastGenOutput>ShopThoiTrang.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -303,6 +377,13 @@
     <Content Include="assets\sass\_shop.scss" />
     <Content Include="assets\sass\_shopping-cart.scss" />
     <Content Include="assets\sass\_variable.scss" />
+    <EntityDeploy Include="Models\ShopThoiTrang.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ShopThoiTrang.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ShopThoiTrang.edmx.diagram">
+      <DependentUpon>ShopThoiTrang.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -328,10 +409,21 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\AppUsers\Create.cshtml" />
+    <Content Include="Views\AppUsers\Delete.cshtml" />
+    <Content Include="Views\AppUsers\Details.cshtml" />
+    <Content Include="Views\AppUsers\Edit.cshtml" />
+    <Content Include="Views\AppUsers\Index.cshtml" />
+    <Content Include="Views\AppUsers\Login.cshtml" />
+    <Content Include="Views\AppUsers\Register.cshtml" />
+    <Content Include="Views\CartItems\Create.cshtml" />
+    <Content Include="Views\CartItems\Delete.cshtml" />
+    <Content Include="Views\CartItems\Details.cshtml" />
+    <Content Include="Views\CartItems\Edit.cshtml" />
+    <Content Include="Views\CartItems\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -359,6 +451,9 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.0.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

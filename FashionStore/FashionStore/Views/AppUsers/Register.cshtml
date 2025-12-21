@@ -1,0 +1,169 @@
+﻿@model FashionStore.Models.AppUser
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<style>
+    .auth-wrapper {
+        background: linear-gradient(135deg, #4f46e5, #06b6d4);
+    }
+
+    .auth-card {
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+
+    .auth-header {
+        background: linear-gradient(135deg, #6366f1, #22d3ee);
+        color: #fff;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #6366f1;
+    }
+
+    .btn-brand {
+        background: linear-gradient(135deg, #6366f1, #22d3ee);
+        border: none;
+        color: #fff;
+    }
+
+        .btn-brand:hover {
+            opacity: 0.9;
+        }
+
+    .input-group-text {
+        background-color: #f1f5f9;
+    }
+</style>
+
+<main class="min-vh-100 d-flex align-items-center justify-content-center auth-wrapper">
+    <div class="col-11 col-sm-9 col-md-8 col-lg-5">
+        <div class="card auth-card shadow-lg">
+
+            <!-- Header -->
+            <div class="auth-header text-center p-4">
+                <h3 class="mb-1">Tạo tài khoản mới</h3>
+                <p class="mb-0 small">Gia nhập cộng đồng của chúng tôi</p>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body p-4">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger py-2 small" })
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-envelope"></i>
+                            </span>
+                            @Html.EditorFor(m => m.Email, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "email@abc.com"
+                                }
+                            })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger small" })
+                        <p class="text-danger small">@ViewBag.ThongBaoEmail</p>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Mật khẩu</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                            @Html.EditorFor(m => m.PasswordHash, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "••••••••"
+                                }
+                            })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.PasswordHash, "", new { @class = "text-danger small" })
+                        <p class="text-danger small">@ViewBag.ThongBaoPassword</p>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Nhập lại mật khẩu</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-lock-fill"></i>
+                            </span>
+                            <input type="password" name="ConfirmPassword" class="form-control" placeholder="••••••••" />
+                        </div>
+                        @ViewBag.ThongBaoConfirm
+                    </div>
+
+                    <!-- Full Name -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Họ và tên</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            @Html.EditorFor(m => m.FullName, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Nguyễn Văn A"
+                                }
+                            })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger small" })
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Số điện thoại</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-telephone"></i>
+                            </span>
+                            @Html.EditorFor(m => m.Phone, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "0123456789"
+                                }
+                            })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger small" })
+                        <p class="text-danger small">@ViewBag.ThongBaoPhone</p>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-brand btn-lg rounded-pill">
+                            Đăng ký
+                        </button>
+                    </div>
+
+                    <!-- Login link -->
+                    <div class="text-center mt-3">
+                        <span class="text-muted small">Đã có tài khoản?</span><br />
+                        <a href="@Url.Action("Login","AppUsers")"
+                           class="fw-semibold text-decoration-none">
+                            Đăng nhập ngay
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</main>

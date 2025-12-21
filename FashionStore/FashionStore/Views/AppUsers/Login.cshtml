@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<style>
+    .login-wrapper {
+        background: linear-gradient(135deg, #4f46e5, #06b6d4);
+    }
+
+    .login-card {
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+
+    .login-header {
+        background: linear-gradient(135deg, #6366f1, #22d3ee);
+        color: #fff;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #6366f1;
+    }
+
+    .btn-brand {
+        background: linear-gradient(135deg, #6366f1, #22d3ee);
+        border: none;
+        color: #fff;
+    }
+
+        .btn-brand:hover {
+            opacity: 0.9;
+        }
+
+    .input-group-text {
+        background-color: #f1f5f9;
+    }
+</style>
+
+<main class="min-vh-100 d-flex align-items-center justify-content-center login-wrapper">
+    <div class="col-11 col-sm-9 col-md-7 col-lg-4">
+        <div class="card login-card shadow-lg">
+
+            <!-- Header -->
+            <div class="login-header text-center p-4">
+                <h3 class="mb-1">Đăng nhập</h3>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body p-4">
+                @using (Html.BeginForm("Login", "AppUsers", FormMethod.Post))
+                {
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-envelope"></i>
+                            </span>
+                            <input type="email"
+                                   class="form-control"
+                                   placeholder="email@abc.com"
+                                   name="Email"
+                                   required />
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Mật khẩu</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                            <input type="password"
+                                   class="form-control"
+                                   placeholder="••••••••"
+                                   name="PasswordHash"
+                                   required />
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-brand btn-lg rounded-pill">
+                            Đăng nhập
+                        </button>
+                    </div>
+
+                    <!-- Register -->
+                    <div class="text-center">
+                        <span class="text-muted small">Chưa có tài khoản?</span><br />
+                        <a href="@Url.Action("Register","AppUsers")"
+                           class="fw-semibold text-decoration-none">
+                            Đăng ký ngay
+                        </a>
+                    </div>
+                }
+
+                <!-- Message -->
+                @if (!string.IsNullOrEmpty(ViewBag.ThongBao))
+                {
+                    <div class="alert alert-danger text-center mt-3 py-2 small">
+                        @ViewBag.ThongBao
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</main>

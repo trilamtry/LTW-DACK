@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var user = (FashionStore.Models.AppUser)Session["user"];
+}
+<!DOCTYPE html>
 <html lang="zxx">
 
 <head>
@@ -7,7 +10,7 @@
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tên SHop Layout | @ViewBag.Title</title>
+    <title>@ViewBag.Title-Sedimentation</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
@@ -29,13 +32,12 @@
     <div id="preloder">
         <div class="loader"></div>
     </div>
-
     <!-- Offcanvas Menu Begin -->
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__option">
             <div class="offcanvas__links">
-                <a href="#">Sign in</a>
+                <a href="@Url.Action("","")">Sign in</a>
                 <a href="#">FAQs</a>
             </div>
             <div class="offcanvas__top__hover">
@@ -66,13 +68,22 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-7">
                         <div class="header__top__left">
-                            @*<p>Free shipping, 30-day return or refund guarantee.</p>*@
+                            <p>Free shipping, 30-day return or refund guarantee.</p>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__links">
-                                <a href="#">Sign in</a>
+                                @if (user == null)
+                                {
+                                    <a href="@Url.Action("Login", "AppUsers")">Sign in</a>
+
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Logout", "AppUsers")">Log out</a>
+                                }
+
                                 <a href="#">FAQs</a>
                             </div>
                             <div class="header__top__hover">
@@ -92,26 +103,26 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="~/assets/img/logo.png" alt="" style="object-fit: contain;"></a>
+                        <a href="~/index.html"><img src="~/assets/img/logo.png" alt="" style="object-fit: contain;"></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
                         <ul>
-                            <li class="active"><a href="./index.html">Home</a></li>
-                            <li><a href="./shop.html">Shop</a></li>
+                            <li class="active"><a href="~/index.html">Home</a></li>
+                            <li><a href="~/shop.html">Shop</a></li>
                             <li>
                                 <a href="#">Pages</a>
                                 <ul class="dropdown">
-                                    <li><a href="./about.html">About Us</a></li>
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
+                                    <li><a href="~/about.html">About Us</a></li>
+                                    <li><a href="~/shop-details.html">Shop Details</a></li>
+                                    <li><a href="~/shopping-cart.html">Shopping Cart</a></li>
+                                    <li><a href="~/checkout.html">Check Out</a></li>
+                                    <li><a href="~/blog-details.html">Blog Details</a></li>
                                 </ul>
                             </li>
-                            <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contacts</a></li>
+                            <li><a href="~/blog.html">Blog</a></li>
+                            <li><a href="~/contact.html">Contacts</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -128,7 +139,9 @@
         </div>
     </header>
     <!-- Header Section End -->
+
     @RenderBody()
+
     <!-- Footer Section Begin -->
     <footer class="footer">
         <div class="container">
@@ -183,11 +196,9 @@
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         <p>
                             Copyright ©
-                            <script>
-                                document.write(new Date().getFullYear());
-                            </script>2020
+                            <script>document.write(new Date().getFullYear());</script>2020
                             All rights reserved | This template is made with <i class="fa fa-heart-o"
-                                                                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                                                                aria-hidden="true"></i> by <a href="~/assets/https://colorlib.com" target="_blank">Colorlib</a>
                         </p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>
@@ -217,9 +228,7 @@
     <script src="~/assets/js/mixitup.min.js"></script>
     <script src="~/assets/js/owl.carousel.min.js"></script>
     <script src="~/assets/js/main.js"></script>
-    @RenderSection("scripts", required: false)
 </body>
-
+@RenderSection("scripts", required: false)
 </html>
-
 
