@@ -1,0 +1,32 @@
+﻿@model IEnumerable<YourProject.Models.CategoryMenuViewModel>
+
+<div class="list-group">
+    @foreach (var group in Model)
+    {
+        <div class="dropdown">
+            <a href="#" class="list-group-item list-group-item-action active bg-dark border-dark">
+                @group.GroupName
+            </a>
+            <div class="sub-category">
+                @foreach (var cat in group.Categories)
+                {
+                    <a href="@Url.Action("Index", "Product", new { slug = cat.CatSlug })"
+                       class="list-group-item list-group-item-action">
+                        <i class="fa fa-angle-right"></i> @cat.CatName
+                    </a>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+        color: #007bff;
+    }
+
+    .fa-angle-right {
+        margin-right: 10px;
+    }
+</style>
