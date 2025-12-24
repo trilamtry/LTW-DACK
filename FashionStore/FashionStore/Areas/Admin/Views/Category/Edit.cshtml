@@ -5,53 +5,90 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<div class="main-content flex-grow-1 p-3 p-md-4">
-    <div class="card shadow-sm border-0 col-md-8 mx-auto">
-        <div class="card-header bg-white">
-            <h5 class="mb-0">Chỉnh sửa Danh mục</h5>
+<div class="page-header">
+    <h1 class="page-title">Chỉnh sửa Danh mục</h1>
+    <p class="page-subtitle">Cập nhật thông tin phân loại cho hệ thống cửa hàng.</p>
+</div>
+
+<div class="d-flex justify-content-center">
+    <div class="content-card col-12 col-lg-7">
+        <div class="card-header">
+            <div class="card-title">
+                <i class="bi bi-pencil-square"></i> Chi tiết danh mục: <span class="text-primary">@Model.CategoryName</span>
+            </div>
         </div>
+
         <div class="card-body">
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.CategoryId)
 
-                <div class="mb-3">
-                    <label class="form-label">Thuộc Nhóm</label>
-                    @Html.DropDownList("GroupId", null, htmlAttributes: new { @class = "form-select" })
-                    @Html.ValidationMessageFor(model => model.GroupId, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Tên Danh mục</label>
-                    @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Slug (URL)</label>
-                    @Html.EditorFor(model => model.CategorySlug, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.CategorySlug, "", new { @class = "text-danger" })
-                </div>
-
                 <div class="row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-12 mb-4">
+                        <label class="form-label">Thuộc Nhóm</label>
+                        @Html.DropDownList("GroupId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.GroupId, "", new { @class = "text-danger small" })
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Tên Danh mục</label>
+                        @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", placeholder = "VD: Áo khoác Nam" } })
+                        @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger small" })
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Slug (URL)</label>
+                        @Html.EditorFor(model => model.CategorySlug, new { htmlAttributes = new { @class = "form-control", placeholder = "VD: ao-khoak-nam" } })
+                        @Html.ValidationMessageFor(model => model.CategorySlug, "", new { @class = "text-danger small" })
+                    </div>
+
+                    <div class="col-md-6 mb-4">
                         <label class="form-label">Thứ tự hiển thị</label>
                         @Html.EditorFor(model => model.SortOrder, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+                        @Html.ValidationMessageFor(model => model.SortOrder, "", new { @class = "text-danger small" })
                     </div>
-                    <div class="col-md-6 mb-3 d-flex align-items-end">
-                        <div class="form-check">
-                            @Html.EditorFor(model => model.IsActive)
-                            <label class="form-check-label" for="IsActive">Đang hoạt động</label>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Trạng thái hệ thống</label>
+                        <div class="form-control d-flex align-items-center" style="background: rgba(255,255,255,0.02); border-style: dashed;">
+                            <div class="form-check form-switch mb-0">
+                                @Html.CheckBoxFor(model => model.IsActive, new { @class = "form-check-input", role = "switch", id = "flexSwitchCheckDefault" })
+                                <label class="form-check-label ms-2" for="flexSwitchCheckDefault">Cho phép hiển thị</label>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-warning">Cập nhật</button>
-                    <a href="@Url.Action("Index")" class="btn btn-light">Hủy bỏ</a>
+                <hr class="my-4" style="border-color: var(--border-color);">
+
+                <div class="d-flex justify-content-end gap-3">
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">
+                        <i class="bi bi-x-lg"></i> Hủy bỏ
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg"></i> Lưu thay đổi
+                    </button>
                 </div>
             }
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        // Tự động tạo Slug khi nhập tên danh mục (Optionally)
+        $(document).ready(function () {
+            $("#CategoryName").keyup(function () {
+                var str = $(this).val();
+                str = str.toLowerCase()
+                         .normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+                         .replace(/[^\w\s-]/g, '')
+                         .replace(/[\s_-]+/g, '-')
+                         .replace(/^-+|-+$/g, '');
+                $("#CategorySlug").val(str);
+            });
+        });
+    </script>
+}

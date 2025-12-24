@@ -4,6 +4,7 @@ using System.Net;
 using System.Web.Mvc;
 using FashionStore.Areas.Admin.Models;
 using FashionStore.Models;
+using System.Collections.Generic; // Thêm thư viện này để dùng List
 
 namespace FashionStore.Areas.Admin.Controllers
 {
@@ -11,8 +12,7 @@ namespace FashionStore.Areas.Admin.Controllers
     {
         private FashionStoreContext db = new FashionStoreContext();
 
-        // 1. Danh sách các biến thể của 1 sản phẩm cụ thể
-        // GET: Admin/ProductVariant/Index?productId=5
+        // 1. Danh sách các biến thể
         public ActionResult Index(int? productId)
         {
             if (productId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -20,7 +20,7 @@ namespace FashionStore.Areas.Admin.Controllers
             var product = db.Products.Find(productId);
             if (product == null) return HttpNotFound();
 
-            ViewBag.Product = product; // Truyền thông tin SP gốc sang View
+            ViewBag.Product = product;
 
             var variants = db.ProductVariants
                              .Include(v => v.Size)
@@ -31,35 +31,34 @@ namespace FashionStore.Areas.Admin.Controllers
             return View(variants);
         }
 
-        // 2. Thêm mới biến thể
-        // GET: Admin/ProductVariant/Create?productId=5
+        // 2. Thêm mới biến thể - GET
         public ActionResult Create(int? productId)
         {
             if (productId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var product = db.Products.Find(productId);
             if (product == null) return HttpNotFound();
 
-            // Chuẩn bị dữ liệu cho Form
             var model = new ProductVariantViewModel
             {
                 ProductId = product.ProductId,
                 ProductName = product.ProductName,
-                Price = product.BasePrice, // Mặc định lấy giá gốc
+                Price = product.BasePrice,
                 Stock = 0
             };
 
-            ViewBag.SizeId = new SelectList(db.Sizes.OrderBy(s => s.SortOrder), "SizeId", "SizeCode");
-            ViewBag.ColorId = new SelectList(db.Colors, "ColorId", "ColorName");
+            // Nạp dữ liệu cho View
+            PrepareViewBag(null, null);
+
             return View(model);
         }
 
+        // 2. Thêm mới biến thể - POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(ProductVariantViewModel model)
         {
             if (ModelState.IsValid)
             {
-                // Kiểm tra xem biến thể này đã tồn tại chưa (Trùng Size + Màu)
                 bool exists = db.ProductVariants.Any(v => v.ProductId == model.ProductId
                                                        && v.SizeId == model.SizeId
                                                        && v.ColorId == model.ColorId);
@@ -76,7 +75,6 @@ namespace FashionStore.Areas.Admin.Controllers
                         ColorId = model.ColorId,
                         Price = model.Price,
                         Stock = model.Stock,
-                        // Tạo SKU tự động: SP001-M-RED
                         SKU = $"{model.ProductId}-{model.SizeId}-{model.ColorId}"
                     };
 
@@ -86,9 +84,21 @@ namespace FashionStore.Areas.Admin.Controllers
                 }
             }
 
-            ViewBag.SizeId = new SelectList(db.Sizes.OrderBy(s => s.SortOrder), "SizeId", "SizeCode", model.SizeId);
-            ViewBag.ColorId = new SelectList(db.Colors, "ColorId", "ColorName", model.ColorId);
+            // QUAN TRỌNG: Nếu có lỗi (trùng biến thể hoặc sai dữ liệu), phải nạp lại ViewBag
+            PrepareViewBag(model.SizeId, model.ColorId);
             return View(model);
+        }
+
+        // Hàm dùng chung để nạp ViewBag, tránh lặp code và tránh lỗi Null
+        private void PrepareViewBag(int? selectedSize, int? selectedColor)
+        {
+            ViewBag.SizeId = new SelectList(db.Sizes.OrderBy(s => s.SortOrder), "SizeId", "SizeCode", selectedSize);
+
+            // Nạp danh sách Color đầy đủ để View vẽ Radio Button và lấy mã Hex
+            ViewBag.ColorsList = db.Colors.ToList();
+
+            // Vẫn giữ ViewBag.ColorId nếu bạn lỡ dùng ở đâu đó khác
+            ViewBag.ColorId = new SelectList(db.Colors, "ColorId", "ColorName", selectedColor);
         }
 
         // 3. Xóa biến thể
@@ -97,12 +107,12 @@ namespace FashionStore.Areas.Admin.Controllers
         public ActionResult Delete(int id)
         {
             var variant = db.ProductVariants.Find(id);
-            int productId = variant.ProductId; // Lưu lại để redirect
-            if (variant != null)
-            {
-                db.ProductVariants.Remove(variant);
-                db.SaveChanges();
-            }
+            if (variant == null) return HttpNotFound();
+
+            int productId = variant.ProductId;
+            db.ProductVariants.Remove(variant);
+            db.SaveChanges();
+
             return RedirectToAction("Index", new { productId = productId });
         }
     }

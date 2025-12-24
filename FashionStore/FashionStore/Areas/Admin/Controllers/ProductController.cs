@@ -18,15 +18,29 @@ namespace FashionStore.Areas.Admin.Controllers
         private FashionStoreContext db = new FashionStoreContext();
 
         // GET: Product/Index
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
-            var products = db.Products
-                             .Include(p => p.Category)
-                             .Include(p => p.ProductVariants)
-                             .Include(p => p.ProductImages)
-                             .OrderByDescending(p => p.CreatedAt)
-                             .ToList();
-            return View(products);
+            // 1. Khởi tạo truy vấn dạng IQueryable (Chưa truy vấn vào Database)
+            // Việc dùng AsQueryable giúp việc lọc diễn ra tại SQL Server thay vì kéo hết về RAM
+            var productsQuery = db.Products
+                                 .Include(p => p.Category)
+                                 .Include(p => p.ProductVariants)
+                                 .Include(p => p.ProductImages)
+                                 .AsQueryable();
+
+            // 2. Thực hiện lọc nếu có từ khóa (Lọc tại Database)
+            if (!string.IsNullOrEmpty(search))
+            {
+                string searchLower = search.ToLower();
+                productsQuery = productsQuery.Where(p => p.ProductName.ToLower().Contains(searchLower)
+                                                      || p.SKU.ToLower().Contains(searchLower));
+            }
+
+            // 3. Thực thi truy vấn, sắp xếp và đưa về danh sách List
+            var result = productsQuery.OrderByDescending(p => p.CreatedAt).ToList();
+
+            // Trả về kết quả cho View
+            return View(result);
         }
 
         // GET: Product/Details/5
