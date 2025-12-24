@@ -58,6 +58,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions.Workflows, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Transactions.Workflows.0.1.2.0\lib\net40\System.Transactions.Workflows.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -132,7 +135,8 @@
     <Compile Include="Controllers\AppUsersController.cs" />
     <Compile Include="Controllers\CartItemsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\OrderItemsController.cs" />
+    <Compile Include="Controllers\ProductVariantsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -199,6 +203,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\about.html" />
+    <Content Include="assets\blog-details.html" />
+    <Content Include="assets\blog.html" />
+    <Content Include="assets\checkout.html" />
+    <Content Include="assets\contact.html" />
     <Content Include="assets\css\bootstrap.min.css" />
     <Content Include="assets\css\elegant-icons.css" />
     <Content Include="assets\css\font-awesome.min.css" />
@@ -256,6 +265,15 @@
     <Content Include="assets\img\logo.png" />
     <Content Include="assets\img\payment.png" />
     <Content Include="assets\img\product-sale.png" />
+    <Content Include="assets\img\product\ao-thun1.jpg" />
+    <Content Include="assets\img\product\ao-thun2.jpg" />
+    <Content Include="assets\img\product\ao-thun3.jpg" />
+    <Content Include="assets\img\product\khoac1.jpg" />
+    <Content Include="assets\img\product\khoac2.jpg" />
+    <Content Include="assets\img\product\khoac3.jpg" />
+    <Content Include="assets\img\product\non1.jpg" />
+    <Content Include="assets\img\product\non2.jpg" />
+    <Content Include="assets\img\product\non3.jpg" />
     <Content Include="assets\img\product\product-1.jpg" />
     <Content Include="assets\img\product\product-10.jpg" />
     <Content Include="assets\img\product\product-11.jpg" />
@@ -270,7 +288,18 @@
     <Content Include="assets\img\product\product-7.jpg" />
     <Content Include="assets\img\product\product-8.jpg" />
     <Content Include="assets\img\product\product-9.jpg" />
+    <Content Include="assets\img\product\quan-dai1.jpg" />
+    <Content Include="assets\img\product\quan-dai2.jpg" />
+    <Content Include="assets\img\product\quan-dai3.jpg" />
+    <Content Include="assets\img\product\quan-short1.jpg" />
     <Content Include="assets\img\product\quan-short2.jpg" />
+    <Content Include="assets\img\product\quan-short3.jpg" />
+    <Content Include="assets\img\product\so-mi1.jpg" />
+    <Content Include="assets\img\product\so-mi2.jpg" />
+    <Content Include="assets\img\product\so-mi3.jpg" />
+    <Content Include="assets\img\product\vo1.jpg" />
+    <Content Include="assets\img\product\vo2.jpg" />
+    <Content Include="assets\img\product\vo3.jpg" />
     <Content Include="assets\img\shop-details\details-payment.png" />
     <Content Include="assets\img\shop-details\product-big-2.png" />
     <Content Include="assets\img\shop-details\product-big-3.png" />
@@ -284,6 +313,7 @@
     <Content Include="assets\img\shopping-cart\cart-2.jpg" />
     <Content Include="assets\img\shopping-cart\cart-3.jpg" />
     <Content Include="assets\img\shopping-cart\cart-4.jpg" />
+    <Content Include="assets\index.html" />
     <Content Include="assets\js\bootstrap.min.js" />
     <Content Include="assets\js\jquery-3.3.1.min.js" />
     <Content Include="assets\js\jquery.countdown.min.js" />
@@ -294,6 +324,10 @@
     <Content Include="assets\js\main.js" />
     <Content Include="assets\js\mixitup.min.js" />
     <Content Include="assets\js\owl.carousel.min.js" />
+    <Content Include="assets\main.html" />
+    <Content Include="assets\shop-details.html" />
+    <Content Include="assets\shop.html" />
+    <Content Include="assets\shopping-cart.html" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -329,6 +363,13 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\ShopThoiTrang.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ShopThoiTrang.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ShopThoiTrang.edmx.diagram">
+      <DependentUpon>ShopThoiTrang.edmx</DependentUpon>
+    </Content>
     <Content Include="assets\css\style.css.map" />
     <Content Include="assets\fonts\ElegantIcons.eot" />
     <Content Include="assets\fonts\ElegantIcons.ttf" />
@@ -378,13 +419,6 @@
     <Content Include="assets\sass\_shop.scss" />
     <Content Include="assets\sass\_shopping-cart.scss" />
     <Content Include="assets\sass\_variable.scss" />
-    <EntityDeploy Include="Models\ShopThoiTrang.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ShopThoiTrang.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\ShopThoiTrang.edmx.diagram">
-      <DependentUpon>ShopThoiTrang.edmx</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -410,23 +444,20 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\AppUsers\Create.cshtml" />
-    <Content Include="Views\AppUsers\Delete.cshtml" />
-    <Content Include="Views\AppUsers\Details.cshtml" />
     <Content Include="Views\AppUsers\Edit.cshtml" />
-    <Content Include="Views\AppUsers\Index.cshtml" />
     <Content Include="Views\AppUsers\Login.cshtml" />
     <Content Include="Views\AppUsers\Register.cshtml" />
-    <Content Include="Views\CartItems\Create.cshtml" />
-    <Content Include="Views\CartItems\Delete.cshtml" />
-    <Content Include="Views\CartItems\Details.cshtml" />
-    <Content Include="Views\CartItems\Edit.cshtml" />
+    <Content Include="Views\ProductVariants\Create.cshtml" />
+    <Content Include="Views\ProductVariants\Delete.cshtml" />
+    <Content Include="Views\ProductVariants\Details.cshtml" />
+    <Content Include="Views\ProductVariants\Edit.cshtml" />
+    <Content Include="Views\ProductVariants\Index.cshtml" />
+    <Content Include="Views\OrderItems\Edit.cshtml" />
+    <Content Include="Views\OrderItems\Checkout.cshtml" />
     <Content Include="Views\CartItems\Index.cshtml" />
-    <Content Include="Views\Products\Create.cshtml" />
-    <Content Include="Views\Products\Delete.cshtml" />
-    <Content Include="Views\Products\Details.cshtml" />
-    <Content Include="Views\Products\Edit.cshtml" />
-    <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\OrderItems\OrderSuccess.cshtml" />
+    <Content Include="Views\OrderItems\Index.cshtml" />
+    <Content Include="Views\OrderItems\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

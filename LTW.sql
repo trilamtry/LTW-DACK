@@ -241,33 +241,33 @@ GO
 INSERT INTO ProductImage (ProductId, ImageUrl, IsPrimary, SortOrder)
 VALUES
 -- Áo Thun
-(1, 'ao-thun1.webp', 1, 0),
-(2, 'ao-thun2.webp', 1, 0),
-(3, 'ao-thun3.webp', 1, 0),
+(1, 'ao-thun1.jpg', 1, 0),
+(2, 'ao-thun2.jpg', 1, 0),
+(3, 'ao-thun3.jpg', 1, 0),
 -- Áo Sơ Mi
-(4, 'so-mi1.webp', 1, 0),
-(5, 'so-mi2.webp', 1, 0),
-(6, 'so-mi3.webp', 1, 0),
+(4, 'so-mi1.jpg', 1, 0),
+(5, 'so-mi2.jpg', 1, 0),
+(6, 'so-mi3.jpg', 1, 0),
 -- Áo Khoác
-(7, 'khoac1.webp', 1, 0),
-(8, 'khoac2.webp', 1, 0),
-(9, 'khoac3.webp', 1, 0),
+(7, 'khoac1.jpg', 1, 0),
+(8, 'khoac2.jpg', 1, 0),
+(9, 'khoac3.jpg', 1, 0),
 -- Nón
-(10, 'non1.webp', 1, 0),
-(11, 'non2.webp', 1, 0),
-(12, 'non3.webp', 1, 0),
+(10, 'non1.jpg', 1, 0),
+(11, 'non2.jpg', 1, 0),
+(12, 'non3.jpg', 1, 0),
 -- Vớ
-(13, 'vo1.webp', 1, 0),
-(14, 'vo2.webp', 1, 0),
-(15, 'vo3.webp', 1, 0),
+(13, 'vo1.jpg', 1, 0),
+(14, 'vo2.jpg', 1, 0),
+(15, 'vo3.jpg', 1, 0),
 -- Quần Short
-(16, 'quan-short1.webp', 1, 0),
+(16, 'quan-short1.jpg', 1, 0),
 (17, 'quan-short2.jpg', 1, 0),
-(18, 'quan-short3.webp', 1, 0),
+(18, 'quan-short3.jpg', 1, 0),
 -- Quần Dài
-(19, 'quan-dai1.webp', 1, 0),
-(20, 'quan-dai2.webp', 1, 0),
-(21, 'quan-dai3.webp', 1, 0);
+(19, 'quan-dai1.jpg', 1, 0),
+(20, 'quan-dai2.jpg', 1, 0),
+(21, 'quan-dai3.jpg', 1, 0);
 GO
 
 -- Insert ProductVariant

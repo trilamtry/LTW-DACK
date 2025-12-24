@@ -32,7 +32,7 @@ namespace FashionStore.Controllers
             {
 
                 Session["user"] = user;
-                return RedirectToAction("Index", "Products");
+                return RedirectToAction("Index", "ProductVariants");
             }
 
             ViewBag.ThongBao = "Đăng nhập thất bại";
@@ -98,53 +98,12 @@ namespace FashionStore.Controllers
             return RedirectToAction("Login");
         }
 
-        // GET: AppUsers
-        public ActionResult Index()
-        {
-            return View(db.AppUsers.ToList());
-        }
-
-        // GET: AppUsers/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            AppUser appUser = db.AppUsers.Find(id);
-            if (appUser == null)
-            {
-                return HttpNotFound();
-            }
-            return View(appUser);
-        }
-
-        // GET: AppUsers/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: AppUsers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserId,Email,PasswordHash,FullName,Phone,IsActive,CreatedAt")] AppUser appUser)
-        {
-            if (ModelState.IsValid)
-            {
-                db.AppUsers.Add(appUser);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(appUser);
-        }
-
         // GET: AppUsers/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (Session["user"] == null) {
+                return RedirectToAction("Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -172,33 +131,6 @@ namespace FashionStore.Controllers
             }
             return View(appUser);
         }
-
-        // GET: AppUsers/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            AppUser appUser = db.AppUsers.Find(id);
-            if (appUser == null)
-            {
-                return HttpNotFound();
-            }
-            return View(appUser);
-        }
-
-        // POST: AppUsers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            AppUser appUser = db.AppUsers.Find(id);
-            db.AppUsers.Remove(appUser);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

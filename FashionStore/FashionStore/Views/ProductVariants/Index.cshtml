@@ -1,0 +1,63 @@
+﻿@model IEnumerable<FashionStore.Models.ProductVariant>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stock)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SKU)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Color.ColorHex)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.SKU)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Size.SizeCode)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stock)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SKU)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Color.ColorHex)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product.SKU)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Size.SizeCode)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.VariantId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.VariantId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.VariantId })
+        </td>
+    </tr>
+}
+
+</table>

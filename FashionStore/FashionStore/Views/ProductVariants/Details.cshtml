@@ -1,0 +1,85 @@
+﻿@model FashionStore.Models.ProductVariant
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ProductVariant</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Stock)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Stock)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SKU)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SKU)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Color.ColorHex)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Color.ColorHex)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.SKU)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.SKU)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Size.SizeCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Size.SizeCode)
+        </dd>
+
+    </dl>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        @using (Html.BeginForm("AddToCart", "CartItems", FormMethod.Post))
+        {
+            <input type="hidden" name="variantId" value="@Model.VariantId" />
+
+            <div class="form-group">
+                <label>Số lượng:</label>
+                <input type="number" name="quantity" value="1" min="1" class="form-control" style="width: 100px;" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-shopping-cart"></span> Thêm vào giỏ hàng
+            </button>
+        }
+    </div>
+</div>
+<hr />
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.VariantId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
