@@ -10,45 +10,45 @@ using FashionStore.Models;
 
 namespace FashionStore.Controllers
 {
-    public class CategoriesController : Controller
-    {
-        private ShopThoiTrangEntities db = new ShopThoiTrangEntities();
-
-        // GET: Categories[ChildActionOnly]
-        public ActionResult GetCategoryMenu()
+        public class CategoriesController : Controller
         {
-            var menu = db.CategoryGroups
-                .Where(g => g.IsActive == true)
-                .OrderBy(g => g.SortOrder)
-                .Select(g => new CategoryMenuViewModel
-                {
-                    GroupId = g.GroupId,
-                    GroupName = g.GroupName,
-                    Categories = g.Categories
-                        .Where(c => c.IsActive == true)
-                        .OrderBy(c => c.SortOrder)
-                        .Select(c => new CategoryItemViewModel
-                        {
-                            CategoryId = c.CategoryId,
-                            CatName = c.CatName,
-                            CatSlug = c.CatSlug
-                        }).ToList()
-                }).ToList();
+            private ShopThoiTrangEntities db = new ShopThoiTrangEntities();
 
-            return PartialView("_CategoryMenu", menu);
-        }
+            // GET: Categories[ChildActionOnly]
+            public ActionResult GetCategoryMenu()
+            {
+                var menu = db.CategoryGroups
+                    .Where(g => g.IsActive == true)
+                    .OrderBy(g => g.SortOrder)
+                    .Select(g => new CategoryMenuViewModel
+                    {
+                        GroupId = g.GroupId,
+                        GroupName = g.GroupName,
+                        Categories = g.Categories
+                            .Where(c => c.IsActive == true)
+                            .OrderBy(c => c.SortOrder)
+                            .Select(c => new CategoryItemViewModel
+                            {
+                                CategoryId = c.CategoryId,
+                                CatName = c.CatName,
+                                CatSlug = c.CatSlug
+                            }).ToList()
+                    }).ToList();
 
-        [ChildActionOnly]
-        public ActionResult GetNavMenu()
-        {
-            var model = db.CategoryGroups.Include("Categories").ToList();
-            return PartialView("_NavMenu", model);
-        }
-        public ActionResult Index()
-        {
-            var categories = db.Categories.Include(c => c.CategoryGroup);
-            return View(categories.ToList());
-        }
+                return PartialView("_CategoryMenu", menu);
+            }
+
+            [ChildActionOnly]
+            public ActionResult GetNavMenu()
+            {
+                var model = db.CategoryGroups.Include("Categories").ToList();
+                return PartialView("_NavMenu", model);
+            }
+            public ActionResult Index()
+            {
+                var categories = db.Categories.Include(c => c.CategoryGroup);
+                return View(categories.ToList());
+            }
 
         // GET: Categories/Details/5
         public ActionResult Details(int? id)

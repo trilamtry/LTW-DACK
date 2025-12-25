@@ -13,5 +13,9 @@ namespace FashionStore.Models
         public decimal BasePrice { get; set; }
         public string ImageUrl { get; set; }
         public string CategoryName { get; set; }
+
+        public virtual ICollection<ProductImage> ProductImages { get; set; }
     }
+
+    
 }

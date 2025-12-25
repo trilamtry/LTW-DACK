@@ -17,8 +17,15 @@ namespace FashionStore.Controllers
         // GET: Products
         public ActionResult Index(string search, int? catId, decimal? minPrice, decimal? maxPrice)
         {
-            var products = db.Products.Where(p => p.IsActive).AsQueryable();
+            var products = db.Products.Include(p => p.ProductImages).AsQueryable();
 
+            // Logic lọc...
+            if (!string.IsNullOrEmpty(search))
+            {
+                products = products.Where(p => p.ProductName.Contains(search));
+            }
+
+            // Các logic lọc (giữ nguyên như cũ)
             if (catId.HasValue)
                 products = products.Where(p => p.CategoryId == catId);
 
@@ -31,12 +38,8 @@ namespace FashionStore.Controllers
             if (maxPrice.HasValue)
                 products = products.Where(p => p.BasePrice <= maxPrice.Value);
 
-            // QUAN TRỌNG: Tên ViewBag phải là catId để khớp với @Html.DropDownList("catId",...)
-            // Và sửa lỗi bool? bằng cách so sánh == true
-            var categories = db.Categories.Where(c => c.IsActive == true).ToList();
-            ViewBag.catId = new SelectList(categories, "CategoryId", "CatName", catId);
-
-            return View(products.OrderByDescending(p => p.CreatedAt).ToList());
+            ViewBag.catId = new SelectList(db.Categories, "CategoryId", "CatName");
+            return View(products.ToList());
         }
         // GET: Products/Details/5
         public ActionResult Details(int? id)
